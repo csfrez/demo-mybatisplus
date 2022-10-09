@@ -3,8 +3,8 @@ package com.csfrez.datalimit.datascope;
 import net.sf.jsqlparser.statement.Statement;
 
 @FunctionalInterface
-public interface O00000o {
+public interface ProcessFunction {
 
-    void process(Statement var1, int var2);
+    void process(Statement statement, int index);
 
 }

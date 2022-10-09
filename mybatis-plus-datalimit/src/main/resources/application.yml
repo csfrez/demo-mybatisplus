@@ -19,4 +19,4 @@ mybatis-plus:
 # Logger Config
 logging:
   level:
-    mybatis.mate: debug
+    com.csfrez: debug
