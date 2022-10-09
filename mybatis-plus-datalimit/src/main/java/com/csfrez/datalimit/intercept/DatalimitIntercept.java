@@ -42,7 +42,7 @@ public class DatalimitIntercept implements Interceptor {
         Object[] args = invocation.getArgs();
         MappedStatement mappedStatement = (MappedStatement)args[0];
         SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
-        if (sqlCommandType != SqlCommandType.UNKNOWN || sqlCommandType != SqlCommandType.FLUSH) {
+        if (sqlCommandType != SqlCommandType.UNKNOWN && sqlCommandType != SqlCommandType.FLUSH) {
             if (null != dataScopeProvider) {
                 dataScopeProvider.sqlRender(args, mappedStatement, sqlCommandType);
             }

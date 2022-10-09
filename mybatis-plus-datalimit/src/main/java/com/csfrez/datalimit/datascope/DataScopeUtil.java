@@ -114,17 +114,17 @@ public class DataScopeUtil {
         builder.resultOrdered(mappedStatement.isResultOrdered());
         builder.keyGenerator(mappedStatement.getKeyGenerator());
         if (null != mappedStatement.getKeyProperties() && mappedStatement.getKeyProperties().length > 0) {
-            builder.keyProperty((String) Arrays.stream(mappedStatement.getKeyProperties()).collect(Collectors.joining(",")));
+            builder.keyProperty(Arrays.stream(mappedStatement.getKeyProperties()).collect(Collectors.joining(",")));
         }
 
         if (null != mappedStatement.getKeyColumns() && mappedStatement.getKeyColumns().length > 0) {
-            builder.keyColumn((String)Arrays.stream(mappedStatement.getKeyColumns()).collect(Collectors.joining(",")));
+            builder.keyColumn(Arrays.stream(mappedStatement.getKeyColumns()).collect(Collectors.joining(",")));
         }
 
         builder.databaseId(mappedStatement.getDatabaseId());
         builder.lang(mappedStatement.getLang());
         if (null != mappedStatement.getResultSets() && mappedStatement.getResultSets().length > 0) {
-            builder.resultSets((String)Arrays.stream(mappedStatement.getResultSets()).collect(Collectors.joining(",")));
+            builder.resultSets(Arrays.stream(mappedStatement.getResultSets()).collect(Collectors.joining(",")));
         }
 
         return builder.build();
