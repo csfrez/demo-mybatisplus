@@ -18,6 +18,11 @@ public class UserServiceTest {
     private UserService userService;
 
     @Test
+    public void selectListTest(){
+        userService.selectList();
+    }
+
+    @Test
     public void dataScopeTest() {
         // 查看控制台，输出执行 sql 语句
         userService.dataScope();

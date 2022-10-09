@@ -12,12 +12,18 @@ import java.util.List;
 
 @Service
 public class UserService {
+
     @Resource
     private UserMapper userMapper;
 
     public void dataScopeDefaultMethod() {
         IPage<User> userPage = userMapper.page(Page.of(1, 10), "153");
         System.out.println("total=" + userPage.getTotal());
+    }
+
+    public void selectList(){
+        Page page = new Page<User>(1, 20);
+        userMapper.selectTestList(page, 1L, "Jack").forEach(System.out::println);
     }
 
     public void dataScope() {
