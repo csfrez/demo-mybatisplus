@@ -17,54 +17,55 @@ public abstract class AbstractDataScopeProvider implements IDataScopeProvider {
     public AbstractDataScopeProvider() {
     }
 
-    public void sqlRender(Object[] var1, MappedStatement var2, SqlCommandType var3) throws Exception {
-        DataScopeProperty var4 = O0000O0o.O0000oOO(var2.getId());
-        if (null != var4) {
-            if (var3 == SqlCommandType.INSERT) {
-                this.processInsert(var1, var2, var4);
-            } else if (var3 == SqlCommandType.UPDATE) {
-                this.processUpdate(var1, var2, var4);
-            } else if (var3 == SqlCommandType.DELETE) {
-                this.processDelete(var1, var2, var4);
-            } else if (var3 == SqlCommandType.SELECT) {
-                this.processSelect(var1, var2, var4);
+    @Override
+    public void sqlRender(Object[] args, MappedStatement mappedStatement, SqlCommandType sqlCommandType) throws Exception {
+        DataScopeProperty dataScopeProperty = DataScopeUtil.getDataScopeProperty(mappedStatement.getId());
+        if (null != dataScopeProperty) {
+            if (sqlCommandType == SqlCommandType.INSERT) {
+                this.processInsert(args, mappedStatement, dataScopeProperty);
+            } else if (sqlCommandType == SqlCommandType.UPDATE) {
+                this.processUpdate(args, mappedStatement, dataScopeProperty);
+            } else if (sqlCommandType == SqlCommandType.DELETE) {
+                this.processDelete(args, mappedStatement, dataScopeProperty);
+            } else if (sqlCommandType == SqlCommandType.SELECT) {
+                this.processSelect(args, mappedStatement, dataScopeProperty);
             }
         }
 
     }
 
-    public void processInsert(Object[] var1, MappedStatement var2, DataScopeProperty var3) {
+    public void processInsert(Object[] args, MappedStatement mappedStatement, DataScopeProperty dataScopeProperty) {
     }
 
-    public void processUpdate(Object[] var1, MappedStatement var2, DataScopeProperty var3) {
+    public void processUpdate(Object[] args, MappedStatement mappedStatement, DataScopeProperty dataScopeProperty) {
     }
 
-    public void processDelete(Object[] var1, MappedStatement var2, DataScopeProperty var3) {
+    public void processDelete(Object[] args, MappedStatement mappedStatement, DataScopeProperty dataScopeProperty) {
     }
 
-    public void processSelect(Object[] var1, MappedStatement var2, DataScopeProperty var3) {
-        this.processStatements(var1, var2, (var3x, var4) -> {
-            this.processSelect((Select) var3x, var4, var1, var3);
+    public void processSelect(Object[] args, MappedStatement mappedStatement, DataScopeProperty dataScopeProperty) {
+        this.processStatements(args, mappedStatement, (statement, index) -> {
+            this.processSelect((Select) statement, index, args, dataScopeProperty);
         });
     }
 
-    public void processSelect(Select var1, int var2, Object[] var3, DataScopeProperty var4) {
-        SelectBody var5 = var1.getSelectBody();
-        if (var5 instanceof PlainSelect) {
-            this.setWhere((PlainSelect) var5, var3, var4);
-        } else if (var5 instanceof SetOperationList) {
-            SetOperationList var6 = (SetOperationList) var5;
-            List var7 = var6.getSelects();
-            var7.forEach((var3x) -> {
-                this.setWhere((PlainSelect) var3x, var3, var4);
+    public void processSelect(Select select, int index, Object[] args, DataScopeProperty dataScopeProperty) {
+        SelectBody selectBody = select.getSelectBody();
+        if (selectBody instanceof PlainSelect) {
+            this.setWhere((PlainSelect) selectBody, args, dataScopeProperty);
+        } else if (selectBody instanceof SetOperationList) {
+            SetOperationList setOperationList = (SetOperationList) selectBody;
+            List<SelectBody> selectBodyList = setOperationList.getSelects();
+            selectBodyList.forEach((sb) -> {
+                this.setWhere((PlainSelect) sb, args, dataScopeProperty);
             });
         }
 
     }
 
-    public abstract void setWhere(PlainSelect var1, Object[] var2, DataScopeProperty var3);
+    public abstract void setWhere(PlainSelect plainSelect, Object[] args, DataScopeProperty dataScopeProperty);
 
-    public void processStatements(Object[] var1, MappedStatement var2, O00000o var3) {
-        O0000O0o.processStatements(var1, var2, var3);
+    public void processStatements(Object[] args, MappedStatement mappedStatement, ProcessFunction processFunction) {
+        DataScopeUtil.processStatements(args, mappedStatement, processFunction);
     }
 }
