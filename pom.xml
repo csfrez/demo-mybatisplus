@@ -14,5 +14,6 @@
     <modules>
         <module>mybatis-plus-generator</module>
         <module>mybatis-plus-sample</module>
+		<module>mybatis-plus-datalimit</module>
     </modules>
 </project>
