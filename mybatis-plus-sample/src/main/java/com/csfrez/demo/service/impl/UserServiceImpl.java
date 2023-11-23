@@ -16,7 +16,7 @@ import java.util.List;
 @DS("slave_1")
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements IUserService {
 
-    @DS("salve_1")
+    @DS("slave_1")
     @Override
     public List<UserEntity> getList() {
         return this.list();

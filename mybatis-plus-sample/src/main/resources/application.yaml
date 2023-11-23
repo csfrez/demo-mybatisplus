@@ -29,6 +29,10 @@ spring:
           url: jdbc:mysql://10.11.0.142:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
           username: root
           password: 123456
+      druid:
+        max-wait: 600
+        connection-error-retry-attempts: 3
+        break-after-acquire-failure: true
     druid:
       filters: stat
       initial-size: 1
@@ -42,6 +46,10 @@ spring:
       test-on-borrow: true
       web-stat-filter:
         enabled: true
+#      max-wait: 600
+#      connection-error-retry-attempts: 3
+#      break-after-acquire-failure: true
+
 
 mybatis-plus:
   configuration:
