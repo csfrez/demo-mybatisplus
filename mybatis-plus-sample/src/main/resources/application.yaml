@@ -1,0 +1,56 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /mybatis-plus-sample
+
+logging:
+  level:
+    com:
+      csfrez:
+        demo: DEBUG
+
+spring:
+  application:
+    name: mybatis-plus-sample
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://10.11.0.142:3306/mm_wiki?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+#    password: 123456
+#    username: root
+    dynamic:
+      primary: master #设置默认的数据源或者数据源组,默认值即为master
+      strict: false #严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
+      datasource:
+        master:
+          url: jdbc:mysql://10.11.0.142:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+          username: root
+          password: 123456
+        slave_1:
+          url: jdbc:mysql://10.11.0.142:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+          username: root
+          password: 123456
+    druid:
+      filters: stat
+      initial-size: 1
+      max-active: 20
+      min-idle: 1
+      stat-view-servlet:
+        allow: '*'
+        enabled: true
+        login-username: druid
+        login-password: druid@123
+      test-on-borrow: true
+      web-stat-filter:
+        enabled: true
+
+mybatis-plus:
+  configuration:
+    cache-enabled: false
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:/mapper/*Dao.xml
+  typeAliasesPackage: com.csfrez.demo.dao.entity
+  global-config:
+    db-config:
+      logic-delete-field: isDelete #全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 #逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 #逻辑未删除值(默认为 0)
